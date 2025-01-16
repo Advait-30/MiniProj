@@ -7,18 +7,25 @@ def create_app():
     app = Flask(__name__)
     
     # Configure app
-    app.config['JWT_SECRET_KEY'] = 'your-secret-key'  # Change this in production
-    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
-    app.config['CORS_HEADERS'] = 'Content-Type'
+    app.config.update(
+        SECRET_KEY='dev-secret-key',  # Change in production
+        JWT_SECRET_KEY='jwt-secret-key',  # Change in production
+        JWT_ACCESS_TOKEN_EXPIRES=timedelta(hours=1),
+        CORS_HEADERS='Content-Type'
+    )
     
     # Initialize extensions
-    CORS(app)
+    CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
     jwt = JWTManager(app)
     
     # Register blueprints
     from .routes.auth import auth_bp
-    app.register_blueprint(auth_bp, url_prefix='/api/auth')
+    from .routes.wban import wban_bp
     
+    app.register_blueprint(auth_bp, url_prefix='/api/auth')
+    app.register_blueprint(wban_bp, url_prefix='/api/wban')
+    
+    # Health check endpoint
     @app.route('/health')
     def health_check():
         return {'status': 'healthy'}, 200

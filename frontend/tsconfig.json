@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "es6"], // Enables DOM and ES6 types
+    "types": ["@testing-library/jest-dom", "react", "react-dom"], // Explicitly include React and Jest DOM types
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "src",
+    "setupTests.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "build"
+  ]
+}
